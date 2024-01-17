@@ -13,7 +13,10 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Brick Sort Puzzle',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: Center(child: BrickStackWidget())),
+      home: Scaffold(
+          body: Center(
+        child: BrickStackWidget(),
+      )),
     );
   }
 }
