@@ -1,4 +1,4 @@
-import 'package:brick_sort_puzzle/widgets/brick_stack_widget.dart';
+import 'package:brick_sort_puzzle/screens/game.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           body: Center(
-        child: BrickStackWidget(),
+        child: Game(),
       )),
     );
   }
