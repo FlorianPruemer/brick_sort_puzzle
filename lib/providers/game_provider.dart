@@ -1,4 +1,4 @@
-import 'package:brick_sort_puzzle/helpers/test_level.dart';
+import 'package:brick_sort_puzzle/helpers/level_generator.dart';
 import 'package:brick_sort_puzzle/models/brick_stack.dart';
 import 'package:brick_sort_puzzle/widgets/brick_stack_widget.dart';
 import 'package:brick_sort_puzzle/widgets/brick_widget.dart';
@@ -9,7 +9,7 @@ class GameProvider extends ChangeNotifier {
   int stackIndex = -1;
 
   GameProvider() {
-    brickStacks = TestLevel().brickStacks;
+    brickStacks = LevelGenerator().generateLevel();
   }
 
   void setIndex(int index) {
