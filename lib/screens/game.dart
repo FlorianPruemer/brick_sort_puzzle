@@ -13,16 +13,25 @@ class Game extends StatefulWidget {
 class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => GameProvider(),
-      child: Consumer<GameProvider>(builder: (context, provider, child) {
-        List<BrickStackWidget> brickStackWidgets =
-            provider.createBrickStackWidgetList();
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [...getGameElements(brickStackWidgets)],
-        );
-      }),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xff1d2d44), Color(0xff0d1321)],
+        ),
+      ),
+      child: ChangeNotifierProvider(
+        create: (BuildContext context) => GameProvider(),
+        child: Consumer<GameProvider>(builder: (context, provider, child) {
+          List<BrickStackWidget> brickStackWidgets =
+              provider.createBrickStackWidgetList();
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [...getGameElements(brickStackWidgets)],
+          );
+        }),
+      ),
     );
   }
 
