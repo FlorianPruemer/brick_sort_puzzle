@@ -25,7 +25,7 @@ class _GameState extends State<Game> {
         create: (BuildContext context) => GameProvider(),
         child: Consumer<GameProvider>(builder: (context, provider, child) {
           List<BrickStackWidget> brickStackWidgets =
-              provider.createBrickStackWidgetList();
+              provider.createBrickStackWidgetList(context);
           return Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [...getGameElements(brickStackWidgets)],

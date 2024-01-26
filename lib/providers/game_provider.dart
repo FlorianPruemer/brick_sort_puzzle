@@ -1,12 +1,16 @@
 import 'package:brick_sort_puzzle/helpers/level_generator.dart';
+import 'package:brick_sort_puzzle/models/brick.dart';
 import 'package:brick_sort_puzzle/models/brick_stack.dart';
 import 'package:brick_sort_puzzle/widgets/brick_stack_widget.dart';
 import 'package:brick_sort_puzzle/widgets/brick_widget.dart';
+import 'package:brick_sort_puzzle/widgets/game_dialog.dart';
 import 'package:flutter/material.dart';
 
 class GameProvider extends ChangeNotifier {
   late List<BrickStack> brickStacks;
   int stackIndex = -1;
+  bool _won = false;
+  bool _lost = false;
 
   GameProvider() {
     brickStacks = LevelGenerator().generateLevel();
@@ -17,7 +21,8 @@ class GameProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<BrickStackWidget> createBrickStackWidgetList() {
+  List<BrickStackWidget> createBrickStackWidgetList(
+      BuildContext currentContext) {
     return List.generate(
         brickStacks.length,
         (stackIndex) => BrickStackWidget(
@@ -28,11 +33,11 @@ class GameProvider extends ChangeNotifier {
                           .bricks[brickIndex]
                           .colorIndex)),
               index: stackIndex,
-              onTap: () => _handleTap(stackIndex),
+              onTap: () => _handleTap(stackIndex, currentContext),
             ));
   }
 
-  void _handleTap(int currentStackIndex) {
+  void _handleTap(int currentStackIndex, BuildContext currentContext) {
     if (stackIndex == currentStackIndex) {
       setIndex(-1);
     } else {
@@ -42,6 +47,13 @@ class GameProvider extends ChangeNotifier {
         performAction(giverIndex: stackIndex, receiverIndex: currentStackIndex);
         setIndex(-1);
       }
+    }
+
+    if (_won || _lost) {
+      GameDialog.openGameDialog(
+        currentContext,
+        _won,
+      );
     }
   }
 
@@ -54,6 +66,8 @@ class GameProvider extends ChangeNotifier {
 
     if (_legalMove(giver: giver, receiver: receiver)) {
       receiver.push(giver.pop());
+      _checkForWin();
+      _checkForLose();
     }
     notifyListeners();
   }
@@ -67,5 +81,44 @@ class GameProvider extends ChangeNotifier {
             giver.isNotEmpty &&
             giver.bricks.last.colorIndex == receiver.bricks.last.colorIndex &&
             giver.lastElementSize() + receiver.bricks.length < 5);
+  }
+
+  void _checkForWin() {
+    _won = true;
+
+    for (BrickStack brickStack in brickStacks) {
+      if (brickStack.isNotEmpty) {
+        if (brickStack.bricks.length < 4) {
+          _won = false;
+          break;
+        }
+        int colorIndex = brickStack.bricks.first.colorIndex;
+        for (Brick brick in brickStack.bricks) {
+          if (colorIndex != brick.colorIndex) {
+            _won = false;
+            break;
+          }
+        }
+      }
+      if (!_won) {
+        break;
+      }
+    }
+  }
+
+  void _checkForLose() {
+    _lost = true;
+
+    for (BrickStack giver in brickStacks) {
+      for (BrickStack receiver in brickStacks) {
+        if (_legalMove(giver: giver, receiver: receiver)) {
+          _lost = false;
+          break;
+        }
+      }
+      if (!_lost) {
+        break;
+      }
+    }
   }
 }
