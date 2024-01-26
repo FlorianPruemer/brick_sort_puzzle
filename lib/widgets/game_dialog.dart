@@ -1,3 +1,4 @@
+import 'package:brick_sort_puzzle/widgets/game_button.dart';
 import 'package:flutter/material.dart';
 import 'custom_dialog.dart';
 
@@ -30,6 +31,31 @@ class GameDialog extends StatelessWidget {
               child: Image.asset(gameWon
                   ? 'assets/images/in-love.png'
                   : 'assets/images/sad.png'))),
+      const Spacer(),
+      Flexible(
+        flex: 10,
+        child: GameButton(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/game');
+          },
+          color: gameWon ? Colors.green : Colors.red,
+          label: gameWon ? "New game" : "Try again",
+          bigButton: true,
+        ),
+      ),
+      const Spacer(),
+      Flexible(
+        flex: 10,
+        child: GameButton(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/');
+          },
+          color: Colors.transparent,
+          label: "Go to Home",
+          bigButton: true,
+          secondaryButton: true,
+        ),
+      )
     ]));
   }
 

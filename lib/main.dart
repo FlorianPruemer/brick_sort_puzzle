@@ -1,4 +1,5 @@
 import 'package:brick_sort_puzzle/screens/game.dart';
+import 'package:brick_sort_puzzle/screens/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,13 +11,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Brick Sort Puzzle',
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          body: Center(
-        child: Game(),
-      )),
-    );
+    return MaterialApp(
+        title: 'Brick Sort Puzzle',
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const Home(),
+          '/game': (context) => const Game(),
+        },
+        theme: ThemeData(
+          fontFamily: 'Oswald',
+        ));
   }
 }

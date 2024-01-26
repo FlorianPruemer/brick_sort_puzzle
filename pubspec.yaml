@@ -60,6 +60,14 @@ flutter:
   assets:
     - assets/images/sad.png
     - assets/images/in-love.png
+
+  fonts:
+    - family: Oswald
+      fonts:
+        - asset: assets/fonts/Oswald-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Oswald-Regular.ttf
+          weight: 100
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
