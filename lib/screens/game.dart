@@ -1,5 +1,7 @@
 import 'package:brick_sort_puzzle/providers/game_provider.dart';
 import 'package:brick_sort_puzzle/widgets/brick_stack_widget.dart';
+import 'package:brick_sort_puzzle/widgets/custom_icon_button.dart';
+import 'package:brick_sort_puzzle/widgets/prompt.dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +30,37 @@ class _GameState extends State<Game> {
               provider.createBrickStackWidgetList(context);
           return Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [...getGameElements(brickStackWidgets)],
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                CustomIconButton(
+                  onPressed: () {
+                    PromptDialog.openPromptDialog(
+                      context,
+                      "Are you sure you want to return to the home screen?",
+                      () {
+                        Navigator.pushReplacementNamed(context, '/');
+                      },
+                    );
+                  },
+                  iconData: Icons.home,
+                  iconSize: 70,
+                ),
+                CustomIconButton(
+                  onPressed: () {
+                    PromptDialog.openPromptDialog(
+                        context, "Are you sure you want to start a new game?",
+                        () {
+                      Navigator.pop(context);
+                      provider.startNewLevel();
+                    });
+                  },
+                  iconData: Icons.redo_rounded,
+                  iconSize: 70,
+                ),
+              ]),
+              const Spacer(),
+              ...getGameElements(brickStackWidgets)
+            ],
           );
         }),
       ),

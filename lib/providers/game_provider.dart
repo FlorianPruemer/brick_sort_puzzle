@@ -38,22 +38,25 @@ class GameProvider extends ChangeNotifier {
   }
 
   void _handleTap(int currentStackIndex, BuildContext currentContext) {
-    if (stackIndex == currentStackIndex) {
-      setIndex(-1);
-    } else {
-      if (stackIndex == -1) {
-        setIndex(currentStackIndex);
-      } else {
-        performAction(giverIndex: stackIndex, receiverIndex: currentStackIndex);
+    if (!_won && !_lost) {
+      if (stackIndex == currentStackIndex) {
         setIndex(-1);
+      } else {
+        if (stackIndex == -1) {
+          setIndex(currentStackIndex);
+        } else {
+          performAction(
+              giverIndex: stackIndex, receiverIndex: currentStackIndex);
+          setIndex(-1);
+        }
       }
-    }
 
-    if (_won || _lost) {
-      GameDialog.openGameDialog(
-        currentContext,
-        _won,
-      );
+      if (_won || _lost) {
+        GameDialog.openGameDialog(
+          currentContext,
+          _won,
+        );
+      }
     }
   }
 
@@ -120,5 +123,12 @@ class GameProvider extends ChangeNotifier {
         break;
       }
     }
+  }
+
+  void startNewLevel() {
+    _won = false;
+    _lost = false;
+    brickStacks = LevelGenerator().generateLevel();
+    notifyListeners();
   }
 }
